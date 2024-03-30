@@ -71,5 +71,5 @@ This mutation will create a new user in the MongoDB database and return the user
 ## Dependencies
 
 - [SvelteKit](https://kit.svelte.dev/)
-- [GraphQL Yoga](https://github.com/dotansimha/graphql-yoga)
+- [GraphQL Yoga](https://the-guild.dev/graphql/yoga-server/docs)
 - [Mongoose](https://mongoosejs.com/)
