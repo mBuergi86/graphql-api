@@ -1,25 +1,20 @@
-import { User } from '$lib/backend/mongodb/models/users';
+import { User, type UsersDataSource } from '$lib/backend/mongodb/models/users';
+import type { YogaInitialContext } from 'graphql-yoga';
 import type { UserInput } from '../types/user.types';
+import { type GraphQLFieldResolver } from 'graphql';
+
+interface ResolverContext extends YogaInitialContext {
+	users: UsersDataSource;
+}
 
 export const Mutation = {
-	createUser: async (parent: unknown, { userInput }: { userInput: UserInput }) => {
+	createUser: (async (parent: unknown, { userInput }: { userInput: UserInput }, { users }) => {
 		try {
-			const newUser = new User({
-				firstname: userInput.firstname,
-				lastname: userInput.lastname,
-				address: userInput.address,
-				number: userInput.number,
-				zip: userInput.zip,
-				city: userInput.city,
-				country: userInput.country,
-				birthdate: userInput.birthdate,
-				gender: userInput.gender
-			});
+			const userId = await users.create(userInput);
 
-			const savedUser = await newUser.save();
-			return savedUser._id.toString();
+			return userId;
 		} catch (error) {
 			throw new Error('Failed to create user');
 		}
-	}
+	}) satisfies GraphQLFieldResolver<unknown, ResolverContext, { userInput: UserInput }>
 };

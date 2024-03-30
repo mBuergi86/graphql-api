@@ -1,8 +1,13 @@
-import { createSchema } from 'graphql-yoga';
+import { createSchema, type YogaInitialContext } from 'graphql-yoga';
 import { Query } from './resolvers/Query';
 import { Mutation } from './resolvers/Mutation';
+import type { UsersDataSource } from '$lib/backend/mongodb/models/users';
 
-export const schema = createSchema({
+interface ResolverContext extends YogaInitialContext {
+	users: UsersDataSource;
+}
+
+export const schema = createSchema<ResolverContext>({
 	typeDefs: /* GraphQL */ `
 		type User {
 			_id: String!
@@ -43,5 +48,5 @@ export const schema = createSchema({
 	resolvers: {
 		Query,
 		Mutation
-	}
+	},
 });
