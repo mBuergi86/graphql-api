@@ -1,7 +1,8 @@
+import { env } from '$env/dynamic/private';
 import mongoose from 'mongoose';
 
 export const connect = async () => {
-	mongoose.connect('mongodb://localhost:27017/users').then(
+	mongoose.connect(env.MONGO_DB).then(
 		() => {
 			console.log('Connected to MongoDB');
 		},
