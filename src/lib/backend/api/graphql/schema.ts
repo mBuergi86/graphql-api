@@ -10,7 +10,7 @@ interface ResolverContext extends YogaInitialContext {
 export const schema = createSchema<ResolverContext>({
 	typeDefs: /* GraphQL */ `
 		type User {
-			_id: String!
+			_id: ID!
 			firstname: String!
 			lastname: String!
 			address: String!
@@ -35,18 +35,18 @@ export const schema = createSchema<ResolverContext>({
 		}
 
 		type Query {
-			getUsersAll: [User!]!
-			getUserById(ID: ID!): User
+			getUsersAll(limit: Int): [User!]!
+			getUserById(_id: ID!): User!
 		}
 
 		type Mutation {
 			createUser(userInput: UserInputData): String!
-			updateUser(ID: ID!, userInput: UserInputData!): String!
-			deleteUser(ID: ID!): String!
+			updateUser(_id: ID!, userInput: UserInputData!): String!
+			deleteUser(_id: ID!): String!
 		}
 	`,
 	resolvers: {
 		Query,
 		Mutation
-	},
+	}
 });
